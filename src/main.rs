@@ -10,7 +10,7 @@ use rocket::launch;
 use dotenv::dotenv;
 use std::sync::Arc;
 
-use utils::{conn::create_pool, fairing::Logger};
+use utils::{conn::create_pool, gzip::Gzip};
 use repos::user_repo::UserRepo;
 use repos::meeting_repo::MeetingRepo;
 
@@ -28,7 +28,7 @@ async fn rocket() -> _ {
     let meeting_repo = MeetingRepo::new(Arc::clone(&arc_pool), None);
     
     rocket::build()
-        .attach(Logger)
+        .attach(Gzip)
         .manage(user_repo)
         .manage(meeting_repo)
         .mount("/users", user_routes())

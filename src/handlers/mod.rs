@@ -5,7 +5,7 @@ use rocket::Route;
 
 pub fn user_routes() -> Vec<Route> {
     routes![
-        user_handler::get_user,
+        user_handler::get_user_by_id
     ]
 }
 

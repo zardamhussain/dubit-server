@@ -3,4 +3,6 @@
 
 pub mod auth;  
 pub mod conn;
-pub mod fairing;
+pub mod gzip;
+
+mod firebase;

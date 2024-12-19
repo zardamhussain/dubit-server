@@ -24,14 +24,12 @@ pub struct FirebaseUser {
     other: HashMap<String, serde_json::Value>,
 }
 
-pub async fn verify_firebase_id_token(
-    id_token: &str,
-    project_id: &str
-) -> Option<FirebaseUser> {
+pub async fn verify_firebase_id_token(id_token: &str, project_id: &str) -> Option<FirebaseUser> {
     let header = decode_header(id_token).ok()?;
     let kid = header.kid.ok_or("No 'kid' found in token header").ok()?;
 
-    let jwks_url = "https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com";
+    let jwks_url =
+        "https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com";
     let jwks: HashMap<String, String> = Client::new()
         .get(jwks_url)
         .send()

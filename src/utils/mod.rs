@@ -1,8 +1,5 @@
-
-
-
-pub mod auth;  
+pub mod auth;
 pub mod conn;
-pub mod gzip;
-
 mod firebase;
+pub mod gzip;
+pub mod macro_rules;

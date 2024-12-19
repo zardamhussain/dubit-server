@@ -1,5 +1,5 @@
 use flate2::{read::GzEncoder, Compression};
-use rocket::{fairing, Request, Response, Rocket, Build};
+use rocket::{fairing, Build, Request, Response, Rocket};
 
 pub struct Gzip;
 
@@ -20,7 +20,11 @@ impl fairing::Fairing for Gzip {
     async fn on_response<'r>(&self, request: &'r Request<'_>, response: &mut Response<'r>) {
         use std::io::{Cursor, Read};
 
-        if request.headers().get("Accept-Encoding").any(|e| e.to_lowercase().contains("gzip")) {
+        if request
+            .headers()
+            .get("Accept-Encoding")
+            .any(|e| e.to_lowercase().contains("gzip"))
+        {
             let body_bytes = response.body_mut().to_bytes().await.unwrap();
             let mut encoder = GzEncoder::new(&body_bytes[..], Compression::fast());
             let mut buf = Vec::with_capacity(body_bytes.len());
